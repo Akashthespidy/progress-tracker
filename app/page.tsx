@@ -8,6 +8,7 @@ import {
   CheckCircle2,
   Sparkles,
 } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export default function LandingPage() {
   return (
@@ -36,12 +37,11 @@ export default function LandingPage() {
           >
             Sign In
           </Link>
-          <Link
-            href="/sign-up"
-            className="btn btn-primary text-sm"
-          >
-            Get Started
-            <ArrowRight className="w-3.5 h-3.5" />
+          <Link href="/sign-up">
+            <Button size="sm" className="gap-2">
+              Get Started
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Button>
           </Link>
         </div>
       </nav>
@@ -74,12 +74,11 @@ export default function LandingPage() {
           </p>
 
           <div className="flex items-center justify-center gap-4">
-            <Link
-              href="/sign-up"
-              className="btn btn-primary text-base px-8 py-3"
-            >
-              Start Your Journey
-              <ArrowRight className="w-4 h-4" />
+            <Link href="/sign-up">
+              <Button size="lg" className="px-8 py-6 text-base gap-2">
+                Start Your Journey
+                <ArrowRight className="w-4 h-4" />
+              </Button>
             </Link>
             <Link
               href="#features"
@@ -190,12 +189,11 @@ export default function LandingPage() {
             <p className="text-[var(--text-secondary)] mb-8 max-w-md mx-auto">
               Start tracking today. Your AI mentor is waiting.
             </p>
-            <Link
-              href="/sign-up"
-              className="btn btn-primary text-base px-10 py-3"
-            >
-              Begin Now — It&apos;s Free
-              <Zap className="w-4 h-4" />
+            <Link href="/sign-up">
+              <Button size="lg" className="px-10 py-6 text-base gap-2">
+                Begin Now — It's Free
+                <Zap className="w-4 h-4" />
+              </Button>
             </Link>
           </div>
         </div>
