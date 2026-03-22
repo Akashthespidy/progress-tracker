@@ -1,5 +1,6 @@
 import { PageContainer } from "@/components/layout/page-container";
 import { getOrCreateUser } from "@/lib/services/user";
+import { SignOutButton } from "@/components/auth/sign-out-button";
 import {
   Settings,
   User,
@@ -73,20 +74,30 @@ async function SettingsContent() {
         </div>
       </div>
 
-      {/* Account Management */}
+      {/* Account & Sign Out */}
       <div className="card p-6">
         <h2 className="text-base font-semibold mb-4 flex items-center gap-2">
           <Shield className="w-4 h-4 text-emerald-400" />
           Account &amp; Security
         </h2>
         <p className="text-sm text-[var(--text-secondary)] mb-4">
-          Your account is securely managed through Clerk. Click your profile
-          picture in the sidebar to manage account settings, change your profile,
-          or sign out.
+          Your account is securely managed through Clerk. You can sign out from
+          the button below or from the sidebar.
         </p>
-        <div className="flex items-center gap-2 text-xs text-emerald-400 bg-emerald-500/10 px-3 py-2 rounded-lg border border-emerald-500/20">
+        <div className="flex items-center gap-2 text-xs text-emerald-400 bg-emerald-500/10 px-3 py-2 rounded-lg border border-emerald-500/20 mb-5">
           <Shield className="w-3 h-3" />
           Account protected with OAuth 2.0
+        </div>
+
+        {/* Sign Out */}
+        <div className="pt-4 border-t border-[var(--border-primary)]">
+          <div className="flex items-center justify-between">
+            <div>
+              <div className="text-sm font-medium text-[var(--text-primary)]">Sign out of your account</div>
+              <div className="text-xs text-[var(--text-tertiary)] mt-0.5">You will be redirected to the landing page</div>
+            </div>
+            <SignOutButton />
+          </div>
         </div>
       </div>
 

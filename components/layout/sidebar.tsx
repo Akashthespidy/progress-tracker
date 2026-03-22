@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useAtom } from "jotai";
-import { UserButton } from "@clerk/nextjs";
+import { useUser, useClerk } from "@clerk/nextjs";
 import {
   LayoutDashboard,
   CheckSquare,
@@ -14,6 +14,7 @@ import {
   ChevronRight,
   Zap,
   Settings,
+  LogOut,
 } from "lucide-react";
 import { sidebarCollapsedAtom } from "@/lib/store/atoms";
 import { cn } from "@/lib/utils";
@@ -50,6 +51,12 @@ const navItems = [
 export function Sidebar() {
   const pathname = usePathname();
   const [collapsed, setCollapsed] = useAtom(sidebarCollapsedAtom);
+  const { user } = useUser();
+  const { signOut } = useClerk();
+
+  const handleSignOut = () => {
+    signOut({ redirectUrl: "/" });
+  };
 
   return (
     <aside
@@ -132,7 +139,8 @@ export function Sidebar() {
       </nav>
 
       {/* Bottom section */}
-      <div className="p-3 border-t border-[var(--border-primary)] space-y-2">
+      <div className="p-3 border-t border-[var(--border-primary)] space-y-1">
+        {/* Settings */}
         <Link
           href="/dashboard/settings"
           className={cn(
@@ -146,15 +154,56 @@ export function Sidebar() {
           {!collapsed && <span>Settings</span>}
         </Link>
 
-        <div className={cn("flex items-center gap-3 px-3 py-2", collapsed && "justify-center px-0")}>
-          <UserButton
-            appearance={{
-              elements: {
-                avatarBox: "w-8 h-8",
-              },
-            }}
-          />
-        </div>
+        {/* Sign Out */}
+        <button
+          onClick={handleSignOut}
+          className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-[var(--text-secondary)] hover:text-rose-400 hover:bg-rose-500/8 transition-all"
+        >
+          <LogOut className="w-[18px] h-[18px] shrink-0" />
+          {!collapsed && <span>Sign Out</span>}
+        </button>
+
+        {/* Profile */}
+        {user && (
+          <div
+            className={cn(
+              "mt-2 pt-2 border-t border-[var(--border-primary)]",
+              collapsed ? "flex justify-center" : ""
+            )}
+          >
+            <Link
+              href="/dashboard/settings"
+              className={cn(
+                "flex items-center gap-3 rounded-lg transition-all group",
+                collapsed
+                  ? "p-1.5 hover:bg-[var(--bg-hover)] rounded-lg"
+                  : "px-3 py-2.5 hover:bg-[var(--bg-hover)] w-full"
+              )}
+            >
+              {user.imageUrl ? (
+                <img
+                  src={user.imageUrl}
+                  alt={user.fullName ?? "Profile"}
+                  className="w-8 h-8 rounded-lg object-cover shrink-0 ring-1 ring-[var(--border-primary)] group-hover:ring-indigo-500/40 transition-all"
+                />
+              ) : (
+                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center shrink-0 text-sm font-bold text-white">
+                  {user.fullName?.[0]?.toUpperCase() ?? "U"}
+                </div>
+              )}
+              {!collapsed && (
+                <div className="min-w-0">
+                  <div className="text-sm font-medium truncate text-[var(--text-primary)]">
+                    {user.fullName ?? "User"}
+                  </div>
+                  <div className="text-[10px] text-[var(--text-tertiary)] truncate">
+                    {user.primaryEmailAddress?.emailAddress ?? ""}
+                  </div>
+                </div>
+              )}
+            </Link>
+          </div>
+        )}
       </div>
     </aside>
   );
