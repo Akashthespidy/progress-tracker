@@ -3,6 +3,7 @@
 import { Provider as JotaiProvider } from "jotai";
 import { ClerkProvider } from "@clerk/nextjs";
 import { dark } from "@clerk/themes";
+import { TooltipProvider } from "@/components/ui/tooltip";
 
 interface ProvidersProps {
   children: React.ReactNode;
@@ -27,7 +28,10 @@ export function Providers({ children }: ProvidersProps) {
         },
       }}
     >
-      <JotaiProvider>{children}</JotaiProvider>
+      <JotaiProvider>
+        <TooltipProvider>{children}</TooltipProvider>
+      </JotaiProvider>
     </ClerkProvider>
   );
 }
+

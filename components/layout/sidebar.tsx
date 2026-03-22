@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import { sidebarCollapsedAtom } from "@/lib/store/atoms";
 import { cn } from "@/lib/utils";
+import { CommandPaletteTrigger } from "@/components/ui/command-palette";
 
 const navItems = [
   {
@@ -82,6 +83,13 @@ export function Sidebar() {
         </button>
       </div>
 
+      {/* Command palette trigger */}
+      {!collapsed && (
+        <div className="px-3 pt-3">
+          <CommandPaletteTrigger />
+        </div>
+      )}
+
       {/* Navigation */}
       <nav className="flex-1 p-3 space-y-1 overflow-y-auto">
         {navItems.map((item) => {
@@ -127,7 +135,12 @@ export function Sidebar() {
       <div className="p-3 border-t border-[var(--border-primary)] space-y-2">
         <Link
           href="/dashboard/settings"
-          className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-hover)] transition-all"
+          className={cn(
+            "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all",
+            pathname === "/dashboard/settings"
+              ? "bg-indigo-500/10 text-indigo-400"
+              : "text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-hover)]"
+          )}
         >
           <Settings className="w-[18px] h-[18px] shrink-0" />
           {!collapsed && <span>Settings</span>}

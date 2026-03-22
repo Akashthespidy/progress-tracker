@@ -10,14 +10,29 @@ import {
 import { getOrCreateUser } from "@/lib/services/user";
 import {
   Flame,
-  TrendingUp,
-  CheckCircle2,
-  Calendar,
-  Trophy,
   BarChart3,
+  Calendar,
 } from "lucide-react";
+import { Suspense } from "react";
 
-export default async function AnalyticsPage() {
+function AnalyticsSkeleton() {
+  return (
+    <div className="space-y-8 animate-pulse">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        {Array.from({ length: 4 }).map((_, i) => (
+          <div key={i} className="h-32 skeleton rounded-xl" />
+        ))}
+      </div>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="h-72 skeleton rounded-xl" />
+        <div className="h-72 skeleton rounded-xl" />
+      </div>
+      <div className="h-48 skeleton rounded-xl" />
+    </div>
+  );
+}
+
+async function AnalyticsContent() {
   const [user, progressHistory, weeklyHistory, weeklyStats, heatmapData] =
     await Promise.all([
       getOrCreateUser(),
@@ -28,24 +43,21 @@ export default async function AnalyticsPage() {
     ]);
 
   return (
-    <PageContainer
-      title="Analytics"
-      subtitle="Track your progress and identify patterns"
-    >
+    <>
       {/* Stats */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         <StatCard
           label="Current Streak"
           value={`${user.currentStreak} days`}
           subtitle={`Longest: ${user.longestStreak} days`}
-          icon={Flame}
+          iconName="flame"
           color="amber"
         />
         <StatCard
           label="Weekly Average"
           value={`${weeklyStats.avgCompletionRate}%`}
           subtitle={`${weeklyStats.completedTasks} of ${weeklyStats.totalTasks} tasks`}
-          icon={TrendingUp}
+          iconName="trending-up"
           color="emerald"
         />
         <StatCard
@@ -59,14 +71,14 @@ export default async function AnalyticsPage() {
             : "—"
           }
           subtitle={`${weeklyStats.bestRate}% completion`}
-          icon={Trophy}
+          iconName="trophy"
           color="violet"
         />
         <StatCard
           label="Total Completed"
           value={weeklyStats.completedTasks}
           subtitle="This week"
-          icon={CheckCircle2}
+          iconName="check-circle"
           color="blue"
         />
       </div>
@@ -99,6 +111,19 @@ export default async function AnalyticsPage() {
         </h2>
         <CompletionHeatmap data={heatmapData} />
       </div>
+    </>
+  );
+}
+
+export default function AnalyticsPage() {
+  return (
+    <PageContainer
+      title="Analytics"
+      subtitle="Track your progress and identify patterns"
+    >
+      <Suspense fallback={<AnalyticsSkeleton />}>
+        <AnalyticsContent />
+      </Suspense>
     </PageContainer>
   );
 }
