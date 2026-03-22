@@ -6,6 +6,7 @@ import {
   integer,
   uuid,
   date,
+  index,
 } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 
@@ -24,68 +25,95 @@ export const users = pgTable("users", {
 });
 
 // ─── Goals ───────────────────────────────────────────────────────────────────
-export const goals = pgTable("goals", {
-  id: uuid("id").defaultRandom().primaryKey(),
-  userId: uuid("user_id")
-    .references(() => users.id, { onDelete: "cascade" })
-    .notNull(),
-  title: text("title").notNull(),
-  description: text("description"),
-  deadline: timestamp("deadline", { withTimezone: true }),
-  progress: integer("progress").default(0).notNull(),
-  status: text("status", { enum: ["active", "completed", "paused", "abandoned"] })
-    .default("active")
-    .notNull(),
-  color: text("color").default("#6366f1").notNull(),
-  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
-  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
-});
+export const goals = pgTable(
+  "goals",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    userId: uuid("user_id")
+      .references(() => users.id, { onDelete: "cascade" })
+      .notNull(),
+    title: text("title").notNull(),
+    description: text("description"),
+    deadline: timestamp("deadline", { withTimezone: true }),
+    progress: integer("progress").default(0).notNull(),
+    status: text("status", { enum: ["active", "completed", "paused", "abandoned"] })
+      .default("active")
+      .notNull(),
+    color: text("color").default("#6366f1").notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+  },
+  (table) => [
+    index("goals_user_id_idx").on(table.userId),
+    index("goals_status_idx").on(table.userId, table.status),
+  ]
+);
 
 // ─── Tasks ───────────────────────────────────────────────────────────────────
-export const tasks = pgTable("tasks", {
-  id: uuid("id").defaultRandom().primaryKey(),
-  userId: uuid("user_id")
-    .references(() => users.id, { onDelete: "cascade" })
-    .notNull(),
-  goalId: uuid("goal_id").references(() => goals.id, { onDelete: "set null" }),
-  title: text("title").notNull(),
-  description: text("description"),
-  completed: boolean("completed").default(false).notNull(),
-  completedAt: timestamp("completed_at", { withTimezone: true }),
-  priority: text("priority", { enum: ["low", "medium", "high", "urgent"] })
-    .default("medium")
-    .notNull(),
-  dueDate: date("due_date"),
-  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
-  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
-});
+export const tasks = pgTable(
+  "tasks",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    userId: uuid("user_id")
+      .references(() => users.id, { onDelete: "cascade" })
+      .notNull(),
+    goalId: uuid("goal_id").references(() => goals.id, { onDelete: "set null" }),
+    title: text("title").notNull(),
+    description: text("description"),
+    completed: boolean("completed").default(false).notNull(),
+    completedAt: timestamp("completed_at", { withTimezone: true }),
+    priority: text("priority", { enum: ["low", "medium", "high", "urgent"] })
+      .default("medium")
+      .notNull(),
+    dueDate: date("due_date"),
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+  },
+  (table) => [
+    index("tasks_user_id_idx").on(table.userId),
+    index("tasks_due_date_idx").on(table.userId, table.dueDate),
+    index("tasks_goal_id_idx").on(table.goalId),
+  ]
+);
 
 // ─── Progress Logs ───────────────────────────────────────────────────────────
-export const progressLogs = pgTable("progress_logs", {
-  id: uuid("id").defaultRandom().primaryKey(),
-  userId: uuid("user_id")
-    .references(() => users.id, { onDelete: "cascade" })
-    .notNull(),
-  date: date("date").notNull(),
-  tasksCompleted: integer("tasks_completed").default(0).notNull(),
-  totalTasks: integer("total_tasks").default(0).notNull(),
-  completionRate: integer("completion_rate").default(0).notNull(),
-  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
-});
+export const progressLogs = pgTable(
+  "progress_logs",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    userId: uuid("user_id")
+      .references(() => users.id, { onDelete: "cascade" })
+      .notNull(),
+    date: date("date").notNull(),
+    tasksCompleted: integer("tasks_completed").default(0).notNull(),
+    totalTasks: integer("total_tasks").default(0).notNull(),
+    completionRate: integer("completion_rate").default(0).notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  },
+  (table) => [
+    index("progress_logs_user_date_idx").on(table.userId, table.date),
+  ]
+);
 
 // ─── AI Logs ─────────────────────────────────────────────────────────────────
-export const aiLogs = pgTable("ai_logs", {
-  id: uuid("id").defaultRandom().primaryKey(),
-  userId: uuid("user_id")
-    .references(() => users.id, { onDelete: "cascade" })
-    .notNull(),
-  prompt: text("prompt").notNull(),
-  response: text("response").notNull(),
-  type: text("type", { enum: ["daily_feedback", "suggestion", "motivation", "goal_review"] })
-    .default("daily_feedback")
-    .notNull(),
-  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
-});
+export const aiLogs = pgTable(
+  "ai_logs",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    userId: uuid("user_id")
+      .references(() => users.id, { onDelete: "cascade" })
+      .notNull(),
+    prompt: text("prompt").notNull(),
+    response: text("response").notNull(),
+    type: text("type", { enum: ["daily_feedback", "suggestion", "motivation", "goal_review"] })
+      .default("daily_feedback")
+      .notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  },
+  (table) => [
+    index("ai_logs_user_id_idx").on(table.userId),
+  ]
+);
 
 // ─── Relations ───────────────────────────────────────────────────────────────
 export const usersRelations = relations(users, ({ many }) => ({

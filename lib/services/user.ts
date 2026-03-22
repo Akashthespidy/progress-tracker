@@ -2,8 +2,14 @@ import { db } from "@/lib/db";
 import { users } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
 import { currentUser } from "@clerk/nextjs/server";
+import { cache } from "react";
 
-export async function getOrCreateUser() {
+/**
+ * Cached per-request: React's `cache()` deduplicates this function within
+ * a single server render. So if the dashboard calls 6 server actions in
+ * parallel, Clerk's currentUser() + the DB lookup only happen ONCE.
+ */
+export const getOrCreateUser = cache(async () => {
   const clerkUser = await currentUser();
 
   if (!clerkUser) {
@@ -58,7 +64,7 @@ export async function getOrCreateUser() {
     if (fallback.length > 0) return fallback[0];
     throw new Error("Failed to create or retrieve user");
   }
-}
+});
 
 export async function getUserByClerkId(clerkId: string) {
   const result = await db
