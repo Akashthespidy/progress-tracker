@@ -150,8 +150,7 @@ export function Sidebar() {
               : "text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-hover)]"
           )}
         >
-          <Settings className="w-[18px] h-[18px] shrink-0" />
-          {!collapsed && <span>Settings</span>}
+          
         </Link>
 
         {/* Sign Out */}
