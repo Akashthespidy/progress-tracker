@@ -95,7 +95,7 @@ export const progressLogs = pgTable(
   ]
 );
 
-// ─── AI Logs ─────────────────────────────────────────────────────────────────
+// ─── AI Logs (General Mentor) ────────────────────────────────────────────────
 export const aiLogs = pgTable(
   "ai_logs",
   {
@@ -115,17 +115,40 @@ export const aiLogs = pgTable(
   ]
 );
 
+// ─── Goal Coaching Logs (Per-Goal AI Coach) ──────────────────────────────────
+export const goalCoachingLogs = pgTable(
+  "goal_coaching_logs",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    userId: uuid("user_id")
+      .references(() => users.id, { onDelete: "cascade" })
+      .notNull(),
+    goalId: uuid("goal_id")
+      .references(() => goals.id, { onDelete: "cascade" })
+      .notNull(),
+    userMessage: text("user_message").notNull(),
+    coachResponse: text("coach_response").notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  },
+  (table) => [
+    index("goal_coaching_goal_id_idx").on(table.goalId),
+    index("goal_coaching_user_id_idx").on(table.userId),
+  ]
+);
+
 // ─── Relations ───────────────────────────────────────────────────────────────
 export const usersRelations = relations(users, ({ many }) => ({
   tasks: many(tasks),
   goals: many(goals),
   progressLogs: many(progressLogs),
   aiLogs: many(aiLogs),
+  goalCoachingLogs: many(goalCoachingLogs),
 }));
 
 export const goalsRelations = relations(goals, ({ one, many }) => ({
   user: one(users, { fields: [goals.userId], references: [users.id] }),
   tasks: many(tasks),
+  coachingLogs: many(goalCoachingLogs),
 }));
 
 export const tasksRelations = relations(tasks, ({ one }) => ({
@@ -141,6 +164,11 @@ export const aiLogsRelations = relations(aiLogs, ({ one }) => ({
   user: one(users, { fields: [aiLogs.userId], references: [users.id] }),
 }));
 
+export const goalCoachingLogsRelations = relations(goalCoachingLogs, ({ one }) => ({
+  user: one(users, { fields: [goalCoachingLogs.userId], references: [users.id] }),
+  goal: one(goals, { fields: [goalCoachingLogs.goalId], references: [goals.id] }),
+}));
+
 // ─── Types ───────────────────────────────────────────────────────────────────
 export type User = typeof users.$inferSelect;
 export type NewUser = typeof users.$inferInsert;
@@ -152,3 +180,5 @@ export type ProgressLog = typeof progressLogs.$inferSelect;
 export type NewProgressLog = typeof progressLogs.$inferInsert;
 export type AILog = typeof aiLogs.$inferSelect;
 export type NewAILog = typeof aiLogs.$inferInsert;
+export type GoalCoachingLog = typeof goalCoachingLogs.$inferSelect;
+export type NewGoalCoachingLog = typeof goalCoachingLogs.$inferInsert;

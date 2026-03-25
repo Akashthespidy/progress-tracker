@@ -9,14 +9,15 @@ interface CreateTaskFormProps {
   goals?: Goal[];
   onClose?: () => void;
   compact?: boolean;
+  defaultGoalId?: string;
 }
 
-export function CreateTaskForm({ goals, onClose, compact = false }: CreateTaskFormProps) {
+export function CreateTaskForm({ goals, onClose, compact = false, defaultGoalId }: CreateTaskFormProps) {
   const [isPending, startTransition] = useTransition();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [priority, setPriority] = useState<"low" | "medium" | "high" | "urgent">("medium");
-  const [goalId, setGoalId] = useState<string>("");
+  const [goalId, setGoalId] = useState<string>(defaultGoalId ?? "");
   const [dueDate, setDueDate] = useState(new Date().toISOString().split("T")[0]);
   const [error, setError] = useState<string | null>(null);
 
