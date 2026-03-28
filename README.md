@@ -1,36 +1,147 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ZeroHero — AI-Powered Progress Tracker
 
-## Getting Started
+> Go from Zero to Hero. Track daily tasks, crush long-term goals, and receive AI mentorship that adapts to your real data.
 
-First, run the development server:
+![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=next.js)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?logo=typescript)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-38bdf8?logo=tailwindcss)
+![Drizzle ORM](https://img.shields.io/badge/Drizzle_ORM-0.45-green)
+
+---
+
+## ✨ Features
+
+### 📋 Smart Task Management
+- Create, edit, and track daily tasks with priorities (low → urgent)
+- Due dates, completion tracking, and automatic progress calculation
+- Link tasks to long-term goals for structured progress
+
+### 🎯 Goal Architecture
+- Set long-term goals with descriptions, deadlines, and color coding
+- Track progress with visual progress bars
+- Status management (active, completed, paused, abandoned)
+- Click into any goal for full detail view with task breakdown
+
+### 📊 Visual Analytics
+- Daily completion rate charts (area + bar)
+- Weekly progress tracking with averages
+- 90-day GitHub-style activity heatmap with hover tooltips
+- Streak tracking (current & best)
+
+### 🧠 AI Mentor — "Zero"
+- **General Coaching**: Daily feedback, suggestions, motivation, goal reviews
+- **Per-Goal Coaching**: Each goal has its own AI coach with full context
+- Chat-style interface with conversation history
+- Quick prompts: "What should I work on next?", "Am I on track?", etc.
+- All coaching conversations saved and persistent
+
+### ⌨️ Power User Features
+- `⌘K` command palette for instant navigation
+- Suspense loading skeletons on every page
+- Responsive sidebar (collapsible)
+- Custom sign-out with profile display
+
+---
+
+## 🛠️ Tech Stack
+
+| Layer | Technology |
+|-------|-----------|
+| Framework | Next.js 16 (App Router, Server Components) |
+| Language | TypeScript 5 |
+| Styling | Tailwind CSS 4 + Shadcn/ui |
+| Database | PostgreSQL (Neon serverless) |
+| ORM | Drizzle ORM |
+| Auth | Clerk |
+| AI | OpenAI GPT-4o-mini |
+| State | Jotai (client atoms) |
+| Charts | Recharts |
+| Validation | Zod |
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+- Node.js 18+
+- pnpm (recommended)
+- [Clerk account](https://clerk.com) (free tier works)
+- [Neon database](https://neon.tech) (free tier works)
+- [OpenAI API key](https://platform.openai.com)
+
+### Installation
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+# Clone the repository
+git clone https://github.com/yourusername/zerohero.git
+cd zerohero
+
+# Install dependencies
+pnpm install
+
+# Copy environment variables
+cp .env.example .env.local
+
+# Edit .env.local with your credentials
+# (Clerk keys, Neon database URL, OpenAI key)
+
+# Push database schema
+pnpm drizzle-kit push
+
+# Start development server
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) and sign up to get started.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 📁 Project Structure
 
-## Learn More
+```
+app/
+├── page.tsx                    # Landing page
+├── layout.tsx                  # Root layout (SEO, fonts, providers)
+├── dashboard/
+│   ├── page.tsx                # Dashboard (stats, tasks, chart, AI)
+│   ├── tasks/page.tsx          # Task management
+│   ├── goals/
+│   │   ├── page.tsx            # Goals list
+│   │   └── [id]/page.tsx       # Goal detail + AI Coach
+│   ├── analytics/page.tsx      # Charts & heatmap
+│   ├── mentor/page.tsx         # General AI mentor
+│   └── settings/page.tsx       # Profile & preferences
+components/
+├── ai/                         # AI mentor + goal coach panels
+├── charts/                     # Progress chart + heatmap
+├── goals/                      # Goal cards, forms
+├── tasks/                      # Task items, forms
+├── layout/                     # Sidebar, page container
+└── ui/                         # Shadcn + custom components
+lib/
+├── actions/                    # Server actions (tasks, goals, AI, analytics)
+├── db/                         # Drizzle schema + connection
+├── services/                   # User service (cached)
+├── store/                      # Jotai atoms
+├── utils.ts                    # Shared utilities
+└── validations/                # Zod schemas
+```
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🔧 Scripts
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+| Command | Description |
+|---------|-------------|
+| `pnpm dev` | Start development server |
+| `pnpm build` | Production build |
+| `pnpm start` | Start production server |
+| `pnpm lint` | Run ESLint |
+| `pnpm drizzle-kit push` | Push schema changes to database |
+| `pnpm drizzle-kit studio` | Open Drizzle Studio (DB GUI) |
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 📄 License
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+MIT — feel free to use this project however you'd like.

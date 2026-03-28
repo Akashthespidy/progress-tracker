@@ -1,8 +1,11 @@
+import type { Metadata } from "next";
 import GoalsClient from "@/components/goals/goals-client";
 import { getGoals } from "@/lib/actions/goals";
 import { getTasks } from "@/lib/actions/tasks";
 import { Suspense } from "react";
 import { PageContainer } from "@/components/layout/page-container";
+
+export const metadata: Metadata = { title: "Goals" };
 
 function GoalsSkeleton() {
   return (

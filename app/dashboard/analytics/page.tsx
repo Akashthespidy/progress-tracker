@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { PageContainer } from "@/components/layout/page-container";
 import { StatCard } from "@/components/ui/stat-card";
 import { ProgressChart } from "@/components/charts/progress-chart";
@@ -8,6 +9,9 @@ import {
   getHeatmapData,
 } from "@/lib/actions/analytics";
 import { getOrCreateUser } from "@/lib/services/user";
+
+export const metadata: Metadata = { title: "Analytics" };
+
 import {
   Flame,
   BarChart3,

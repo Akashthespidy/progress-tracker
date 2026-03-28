@@ -1,8 +1,11 @@
+import type { Metadata } from "next";
 import TasksClient from "@/components/tasks/tasks-client";
 import { getTasks } from "@/lib/actions/tasks";
 import { getGoals } from "@/lib/actions/goals";
 import { Suspense } from "react";
 import { PageContainer } from "@/components/layout/page-container";
+
+export const metadata: Metadata = { title: "Tasks" };
 
 function TasksSkeleton() {
   return (

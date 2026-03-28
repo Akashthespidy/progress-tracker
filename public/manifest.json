@@ -1,0 +1,17 @@
+{
+  "name": "ZeroHero — Progress Tracker",
+  "short_name": "ZeroHero",
+  "description": "AI-powered self-improvement tracker with goal coaching, analytics, and daily mentorship.",
+  "start_url": "/dashboard",
+  "display": "standalone",
+  "background_color": "#06060e",
+  "theme_color": "#6366f1",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "48x48",
+      "type": "image/x-icon"
+    }
+  ]
+}

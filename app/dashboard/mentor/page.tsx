@@ -1,9 +1,12 @@
+import type { Metadata } from "next";
 import { PageContainer } from "@/components/layout/page-container";
 import { AIMentorPanel } from "@/components/ai/ai-mentor-panel";
 import { getLatestAILog, getAIHistory } from "@/lib/actions/ai";
 import { Brain, Clock, MessageSquare, Zap, Database, Target, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Suspense } from "react";
+
+export const metadata: Metadata = { title: "AI Mentor" };
 
 function MentorSkeleton() {
   return (

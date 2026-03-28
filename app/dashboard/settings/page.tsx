@@ -1,4 +1,7 @@
+import type { Metadata } from "next";
 import { PageContainer } from "@/components/layout/page-container";
+
+export const metadata: Metadata = { title: "Settings" };
 import { getOrCreateUser } from "@/lib/services/user";
 import { SignOutButton } from "@/components/auth/sign-out-button";
 import {

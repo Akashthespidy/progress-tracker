@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { PageContainer } from "@/components/layout/page-container";
 import { StatCard } from "@/components/ui/stat-card";
 import { ProgressChart } from "@/components/charts/progress-chart";
@@ -24,6 +25,8 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
+
+export const metadata: Metadata = { title: "Dashboard" };
 
 function DashboardSkeleton() {
   return (
