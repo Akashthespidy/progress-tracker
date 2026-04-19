@@ -12,7 +12,6 @@ import {
   ListTodo,
   ArrowLeft,
   Calendar,
-  Brain,
   TrendingUp,
 } from "lucide-react";
 import Link from "next/link";

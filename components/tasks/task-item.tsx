@@ -2,7 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { toggleTask, deleteTask } from "@/lib/actions/tasks";
-import { cn, getPriorityColor, formatRelativeDate } from "@/lib/utils";
+import { cn, getPriorityColor } from "@/lib/utils";
 import {
   CheckCircle2,
   Circle,

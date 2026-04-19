@@ -5,7 +5,6 @@ export const metadata: Metadata = { title: "Settings" };
 import { getOrCreateUser } from "@/lib/services/user";
 import { SignOutButton } from "@/components/auth/sign-out-button";
 import {
-  Settings,
   User,
   Shield,
   Keyboard,
@@ -37,6 +36,7 @@ async function SettingsContent() {
         </h2>
         <div className="flex items-center gap-4 mb-5">
           {user.imageUrl ? (
+            // eslint-disable-next-line @next/next/no-img-element
             <img
               src={user.imageUrl}
               alt={user.name ?? "Profile"}

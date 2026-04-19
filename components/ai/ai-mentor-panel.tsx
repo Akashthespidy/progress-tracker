@@ -26,7 +26,9 @@ const mentorTypes = [
  */
 function FormattedResponse({ text }: { text: string }) {
   const lines = text.split("\n");
-  let headlineRendered = false;
+  
+  // Find first non-empty line for headline
+  const firstNonEmptyIndex = lines.findIndex(line => line.trim());
 
   return (
     <div className="space-y-2.5">
@@ -37,8 +39,7 @@ function FormattedResponse({ text }: { text: string }) {
         if (!trimmed) return null;
 
         // Headline — first non-empty line
-        if (!headlineRendered) {
-          headlineRendered = true;
+        if (i === firstNonEmptyIndex) {
           return (
             <div key={i} className="text-sm font-semibold text-[var(--text-primary)] pb-1 border-b border-[var(--border-primary)]">
               {trimmed}

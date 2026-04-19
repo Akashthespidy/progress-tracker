@@ -8,7 +8,6 @@ import {
   CheckCircle2,
   Sparkles,
   Shield,
-  Clock,
   TrendingUp,
   MessageCircle,
   Flame,

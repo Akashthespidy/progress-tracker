@@ -9,13 +9,11 @@ import {
   Trash2,
   Brain,
   ArrowRight,
-  CheckCircle,
-  PauseCircle,
   AlertCircle,
 } from "lucide-react";
 import type { Goal } from "@/lib/db/schema";
 import { useState, useTransition } from "react";
-import { deleteGoal, updateGoal } from "@/lib/actions/goals";
+import { deleteGoal } from "@/lib/actions/goals";
 import Link from "next/link";
 
 interface GoalCardProps {
@@ -36,19 +34,6 @@ export function GoalCard({ goal, taskCount = 0 }: GoalCardProps) {
     });
     setShowMenu(false);
     setShowDeleteConfirm(false);
-  };
-
-  const handleStatusChange = (
-    status: "active" | "completed" | "paused" | "abandoned",
-  ) => {
-    startTransition(async () => {
-      await updateGoal({
-        id: goal.id,
-        status,
-        progress: status === "completed" ? 100 : undefined,
-      });
-    });
-    setShowMenu(false);
   };
 
   return (
@@ -160,25 +145,6 @@ export function GoalCard({ goal, taskCount = 0 }: GoalCardProps) {
                   </Link>
                   <button
                     onClick={() => {
-                      handleStatusChange("completed");
-                    }}
-                    className="w-full px-3 py-2.5 text-left text-xs hover:bg-[var(--bg-hover)] text-emerald-400 flex items-center gap-2 transition-colors"
-                  >
-                    <CheckCircle className="w-3.5 h-3.5" />
-                    <span>Mark Completed</span>
-                  </button>
-                  <button
-                    onClick={() => {
-                      handleStatusChange("paused");
-                    }}
-                    className="w-full px-3 py-2.5 text-left text-xs hover:bg-[var(--bg-hover)] text-amber-400 flex items-center gap-2 transition-colors"
-                  >
-                    <PauseCircle className="w-3.5 h-3.5" />
-                    <span>Pause</span>
-                  </button>
-                  <hr className="my-1 border-[var(--border-primary)]" />
-                  <button
-                    onClick={() => {
                       setShowDeleteConfirm(true);
                       setShowMenu(false);
                     }}
@@ -209,7 +175,7 @@ export function GoalCard({ goal, taskCount = 0 }: GoalCardProps) {
               <div className="flex-1">
                 <h3 className="text-sm font-semibold mb-1">Delete Goal?</h3>
                 <p className="text-xs text-[var(--text-secondary)] mb-4">
-                  Are you sure you want to delete "{goal.title}"? This action
+                  Are you sure you want to delete &quot;{goal.title}&quot;? This action
                   cannot be undone.
                 </p>
                 <div className="flex gap-2 justify-end">

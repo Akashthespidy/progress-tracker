@@ -69,8 +69,11 @@ export function CommandPalette() {
   }, [handleKeyDown]);
 
   useEffect(() => {
-    setSelectedIndex(0);
-  }, [query]);
+    if (open && query) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setSelectedIndex(0);
+    }
+  }, [query, open]);
 
   if (!open) return null;
 

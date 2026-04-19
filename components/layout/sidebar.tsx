@@ -181,6 +181,7 @@ export function Sidebar() {
               )}
             >
               {user.imageUrl ? (
+                // eslint-disable-next-line @next/next/no-img-element
                 <img
                   src={user.imageUrl}
                   alt={user.fullName ?? "Profile"}

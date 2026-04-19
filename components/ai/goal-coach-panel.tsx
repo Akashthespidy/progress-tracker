@@ -32,7 +32,9 @@ interface ChatMessage {
  */
 function FormattedCoachResponse({ text }: { text: string }) {
   const lines = text.split("\n");
-  let headlineRendered = false;
+  
+  // Find first non-empty line for headline
+  const firstNonEmptyIndex = lines.findIndex(line => line.trim());
 
   return (
     <div className="space-y-2">
@@ -40,8 +42,7 @@ function FormattedCoachResponse({ text }: { text: string }) {
         const trimmed = line.trim();
         if (!trimmed) return null;
 
-        if (!headlineRendered) {
-          headlineRendered = true;
+        if (i === firstNonEmptyIndex) {
           return (
             <div
               key={i}
@@ -119,6 +120,7 @@ export function GoalCoachPanel({
   const [isPending, startTransition] = useTransition();
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const idCounterRef = useRef(0);
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -130,7 +132,7 @@ export function GoalCoachPanel({
     if (!message.trim() || isPending) return;
 
     const userMsg: ChatMessage = {
-      id: `u-${Date.now()}`,
+      id: `u-${++idCounterRef.current}`,
       role: "user",
       content: message.trim(),
       timestamp: new Date(),
@@ -143,7 +145,7 @@ export function GoalCoachPanel({
       const result = await askGoalCoach(goalId, message.trim());
 
       const coachMsg: ChatMessage = {
-        id: `c-${Date.now()}`,
+        id: `c-${++idCounterRef.current}`,
         role: "coach",
         content: result.response,
         timestamp: new Date(),

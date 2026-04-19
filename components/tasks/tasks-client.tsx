@@ -13,7 +13,7 @@ import {
   taskSearchAtom,
 } from "@/lib/store/atoms";
 import { cn } from "@/lib/utils";
-import { Plus, CheckSquare, Search, Filter } from "lucide-react";
+import { Plus, CheckSquare, Search } from "lucide-react";
 import type { Task, Goal } from "@/lib/db/schema";
 
 interface TasksClientProps {
