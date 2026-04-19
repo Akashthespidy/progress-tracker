@@ -25,7 +25,7 @@ export const metadata: Metadata = {
 
 export default async function LandingPage() {
   const { userId } = await auth();
-  
+
   // If user is already logged in, redirect to dashboard
   if (userId) {
     redirect("/dashboard");
