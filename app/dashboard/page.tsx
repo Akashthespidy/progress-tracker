@@ -16,13 +16,7 @@ import {
   getStreakEmoji,
   calculateCompletionRate,
 } from "@/lib/utils";
-import {
-  ArrowRight,
-  Plus,
-  Target,
-  Brain,
-  BarChart3,
-} from "lucide-react";
+import { ArrowRight, Plus, Target, Brain, BarChart3 } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
 
@@ -62,7 +56,8 @@ async function DashboardContent() {
 
   // Motivational messages based on progress
   const getMotivation = () => {
-    if (todayRate === 100 && todayTotal > 0) return "🎯 Perfect day! All tasks done!";
+    if (todayRate === 100 && todayTotal > 0)
+      return "🎯 Perfect day! All tasks done!";
     if (todayRate >= 75) return "Almost there — finish strong!";
     if (todayRate >= 50) return "Solid progress. Keep pushing!";
     if (todayTotal === 0) return "Plan your day — add some tasks!";
@@ -186,8 +181,12 @@ async function DashboardContent() {
             {todayTotal > 0 && (
               <div className="mb-6">
                 <div className="flex items-center justify-between text-xs text-[var(--text-tertiary)] mb-1.5">
-                  <span>{todayCompleted} of {todayTotal} completed</span>
-                  <span className="font-medium text-[var(--text-secondary)]">{todayRate}%</span>
+                  <span>
+                    {todayCompleted} of {todayTotal} completed
+                  </span>
+                  <span className="font-medium text-[var(--text-secondary)]">
+                    {todayRate}%
+                  </span>
                 </div>
                 <div className="w-full h-1.5 bg-[var(--bg-tertiary)] rounded-full overflow-hidden">
                   <div
@@ -198,58 +197,33 @@ async function DashboardContent() {
               </div>
             )}
 
-            {/* Create Task CTA */}
-            {todayTotal === 0 && (
-              <div className="mb-6">
-                <Link href="/dashboard/tasks" className="w-full block">
-                  <Button
-                    className="w-full bg-gradient-to-r from-indigo-500 to-violet-500 hover:from-indigo-600 hover:to-violet-600 text-white font-semibold py-3 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
-                  >
-                    <Plus className="w-5 h-5 mr-2" />
-                    Create Your First Task
-                  </Button>
-                </Link>
-              </div>
-            )}
-
-            <div className="space-y-2">
+            <div className="space-y-3">
               {todayTasks.length > 0 ? (
-                <>
-                  {todayTasks.slice(0, 6).map((task) => (
-                    <TaskItem key={task.id} task={task} />
-                  ))}
-                  {todayTasks.length > 6 && (
-                    <Link
-                      href="/dashboard/tasks"
-                      className="block text-center text-xs text-indigo-400 hover:text-indigo-300 py-2 transition-colors"
-                    >
-                      +{todayTasks.length - 6} more tasks →
-                    </Link>
-                  )}
-                  <Link href="/dashboard/tasks" className="block mt-3">
-                    <Button
-                      variant="outline"
-                      className="w-full border-indigo-500/50 hover:border-indigo-400 hover:bg-indigo-500/10 text-indigo-400"
-                    >
-                      <Plus className="w-4 h-4 mr-2" />
-                      Add More Tasks
-                    </Button>
-                  </Link>
-                </>
+                todayTasks.slice(0, 6).map((task) => (
+                  <TaskItem key={task.id} task={task} />
+                ))
               ) : (
-                <div className="text-center py-12">
-                  <div className="text-4xl mb-3">✨</div>
-                  <p className="text-sm text-[var(--text-tertiary)] mb-4">
-                    No tasks for today. Let&apos;s get started!
+                <div className="text-center py-8">
+                  <div className="text-3xl mb-2">✨</div>
+                  <p className="text-sm text-[var(--text-tertiary)]">
+                    No tasks for today yet.
                   </p>
-                  <Link href="/dashboard/tasks" className="inline-block">
-                    <Button className="bg-gradient-to-r from-indigo-500 to-violet-500 hover:from-indigo-600 hover:to-violet-600 text-white font-semibold">
-                      <Plus className="w-4 h-4 mr-2" />
-                      Create Task
-                    </Button>
-                  </Link>
                 </div>
               )}
+              {todayTasks.length > 6 && (
+                <Link
+                  href="/dashboard/tasks"
+                  className="block text-center text-xs text-indigo-400 hover:text-indigo-300 py-2 transition-colors"
+                >
+                  +{todayTasks.length - 6} more tasks →
+                </Link>
+              )}
+              <Link href="/dashboard/tasks" className="block">
+                <Button className="w-full bg-gradient-to-r from-indigo-500 to-violet-500 hover:from-indigo-600 hover:to-violet-600 text-white font-semibold">
+                  <Plus className="w-4 h-4 mr-2" />
+                  Add Task
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
@@ -284,7 +258,10 @@ async function DashboardContent() {
                   <p className="text-sm text-[var(--text-tertiary)] mb-3">
                     No active goals yet
                   </p>
-                  <Link href="/dashboard/goals" className="btn btn-secondary text-xs">
+                  <Link
+                    href="/dashboard/goals"
+                    className="btn btn-secondary text-xs"
+                  >
                     <Plus className="w-3 h-3" />
                     Create Goal
                   </Link>
