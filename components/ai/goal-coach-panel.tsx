@@ -32,9 +32,9 @@ interface ChatMessage {
  */
 function FormattedCoachResponse({ text }: { text: string }) {
   const lines = text.split("\n");
-  
+
   // Find first non-empty line for headline
-  const firstNonEmptyIndex = lines.findIndex(line => line.trim());
+  const firstNonEmptyIndex = lines.findIndex((line) => line.trim());
 
   return (
     <div className="space-y-2">
@@ -67,7 +67,10 @@ function FormattedCoachResponse({ text }: { text: string }) {
 
         if (trimmed.startsWith("•")) {
           return (
-            <div key={i} className="flex items-start gap-2 text-xs text-[var(--text-secondary)] pl-1">
+            <div
+              key={i}
+              className="flex items-start gap-2 text-xs text-[var(--text-secondary)] pl-1"
+            >
               <span className="text-indigo-400 shrink-0 mt-0.5">•</span>
               <span>{trimmed.slice(1).trim()}</span>
             </div>
@@ -75,7 +78,10 @@ function FormattedCoachResponse({ text }: { text: string }) {
         }
 
         return (
-          <p key={i} className="text-xs text-[var(--text-secondary)] leading-relaxed">
+          <p
+            key={i}
+            className="text-xs text-[var(--text-secondary)] leading-relaxed"
+          >
             {trimmed}
           </p>
         );
@@ -161,7 +167,10 @@ export function GoalCoachPanel({
   };
 
   return (
-    <div className="card overflow-hidden flex flex-col" style={{ minHeight: 480 }}>
+    <div
+      className="card overflow-hidden flex flex-col"
+      style={{ minHeight: 480 }}
+    >
       {/* Header */}
       <div className="px-5 py-4 border-b border-[var(--border-primary)] flex items-center gap-3">
         <div
@@ -198,7 +207,8 @@ export function GoalCoachPanel({
               Ask your Goal Coach
             </p>
             <p className="text-xs text-[var(--text-tertiary)] text-center max-w-[250px] mb-5">
-              Get AI-powered advice specific to this goal&apos;s tasks, progress, and deadline
+              Get AI-powered advice specific to this goal&apos;s tasks,
+              progress, and deadline
             </p>
             <div className="grid grid-cols-2 gap-2 w-full max-w-sm">
               {quickPrompts.map((prompt) => (
@@ -220,7 +230,7 @@ export function GoalCoachPanel({
                 key={msg.id}
                 className={cn(
                   "flex gap-3",
-                  msg.role === "user" ? "justify-end" : "justify-start"
+                  msg.role === "user" ? "justify-end" : "justify-start",
                 )}
               >
                 {msg.role === "coach" && (
@@ -228,7 +238,10 @@ export function GoalCoachPanel({
                     className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0 mt-0.5"
                     style={{ backgroundColor: `${goalColor}20` }}
                   >
-                    <Brain className="w-3.5 h-3.5" style={{ color: goalColor }} />
+                    <Brain
+                      className="w-3.5 h-3.5"
+                      style={{ color: goalColor }}
+                    />
                   </div>
                 )}
                 <div
@@ -236,7 +249,7 @@ export function GoalCoachPanel({
                     "max-w-[85%] rounded-xl px-4 py-3",
                     msg.role === "user"
                       ? "bg-indigo-500/15 border border-indigo-500/20 text-[var(--text-primary)]"
-                      : "bg-[var(--bg-tertiary)] border border-[var(--border-primary)]"
+                      : "bg-[var(--bg-tertiary)] border border-[var(--border-primary)]",
                   )}
                 >
                   {msg.role === "user" ? (
@@ -266,13 +279,25 @@ export function GoalCoachPanel({
                   className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0"
                   style={{ backgroundColor: `${goalColor}20` }}
                 >
-                  <Brain className="w-3.5 h-3.5 animate-pulse" style={{ color: goalColor }} />
+                  <Brain
+                    className="w-3.5 h-3.5 animate-pulse"
+                    style={{ color: goalColor }}
+                  />
                 </div>
                 <div className="bg-[var(--bg-tertiary)] border border-[var(--border-primary)] rounded-xl px-4 py-3">
                   <div className="flex items-center gap-1.5">
-                    <div className="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-bounce" style={{ animationDelay: "0ms" }} />
-                    <div className="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-bounce" style={{ animationDelay: "150ms" }} />
-                    <div className="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-bounce" style={{ animationDelay: "300ms" }} />
+                    <div
+                      className="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-bounce"
+                      style={{ animationDelay: "0ms" }}
+                    />
+                    <div
+                      className="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-bounce"
+                      style={{ animationDelay: "150ms" }}
+                    />
+                    <div
+                      className="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-bounce"
+                      style={{ animationDelay: "300ms" }}
+                    />
                   </div>
                 </div>
               </div>
@@ -319,7 +344,7 @@ export function GoalCoachPanel({
             "p-2 rounded-lg transition-all",
             input.trim()
               ? "bg-indigo-500 text-white hover:bg-indigo-400"
-              : "bg-[var(--bg-tertiary)] text-[var(--text-tertiary)]"
+              : "bg-[var(--bg-tertiary)] text-[var(--text-tertiary)]",
           )}
         >
           {isPending ? (

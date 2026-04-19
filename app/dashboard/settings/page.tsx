@@ -61,18 +61,26 @@ async function SettingsContent() {
               <Flame className="w-4 h-4" />
               {user.currentStreak}
             </div>
-            <div className="text-[10px] text-[var(--text-tertiary)] mt-0.5">Current Streak</div>
+            <div className="text-[10px] text-[var(--text-tertiary)] mt-0.5">
+              Current Streak
+            </div>
           </div>
           <div className="bg-[var(--bg-tertiary)] rounded-lg p-3 text-center">
-            <div className="text-lg font-bold text-violet-400">{user.longestStreak}</div>
-            <div className="text-[10px] text-[var(--text-tertiary)] mt-0.5">Best Streak</div>
+            <div className="text-lg font-bold text-violet-400">
+              {user.longestStreak}
+            </div>
+            <div className="text-[10px] text-[var(--text-tertiary)] mt-0.5">
+              Best Streak
+            </div>
           </div>
           <div className="bg-[var(--bg-tertiary)] rounded-lg p-3 text-center">
             <div className="text-xs font-medium text-[var(--text-secondary)] flex items-center justify-center gap-1">
               <Calendar className="w-3 h-3" />
               {memberSince}
             </div>
-            <div className="text-[10px] text-[var(--text-tertiary)] mt-0.5">Member Since</div>
+            <div className="text-[10px] text-[var(--text-tertiary)] mt-0.5">
+              Member Since
+            </div>
           </div>
         </div>
       </div>
@@ -96,8 +104,12 @@ async function SettingsContent() {
         <div className="pt-4 border-t border-[var(--border-primary)]">
           <div className="flex items-center justify-between">
             <div>
-              <div className="text-sm font-medium text-[var(--text-primary)]">Sign out of your account</div>
-              <div className="text-xs text-[var(--text-tertiary)] mt-0.5">You will be redirected to the landing page</div>
+              <div className="text-sm font-medium text-[var(--text-primary)]">
+                Sign out of your account
+              </div>
+              <div className="text-xs text-[var(--text-tertiary)] mt-0.5">
+                You will be redirected to the landing page
+              </div>
             </div>
             <SignOutButton />
           </div>
@@ -149,7 +161,9 @@ async function SettingsContent() {
           and receive AI-powered mentorship based on your real data.
         </p>
         <div className="flex items-center gap-3 text-xs text-[var(--text-tertiary)]">
-          <span className="px-2 py-1 bg-[var(--bg-tertiary)] rounded">v1.0.0</span>
+          <span className="px-2 py-1 bg-[var(--bg-tertiary)] rounded">
+            v1.0.0
+          </span>
           <span>Next.js • Drizzle ORM • OpenAI • Clerk</span>
         </div>
       </div>

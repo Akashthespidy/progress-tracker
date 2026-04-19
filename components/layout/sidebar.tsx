@@ -62,12 +62,17 @@ export function Sidebar() {
     <aside
       className={cn(
         "fixed left-0 top-0 h-screen bg-[var(--bg-secondary)] border-r border-[var(--border-primary)] flex flex-col transition-all duration-300 z-40",
-        collapsed ? "w-[var(--sidebar-collapsed-width)]" : "w-[var(--sidebar-width)]"
+        collapsed
+          ? "w-[var(--sidebar-collapsed-width)]"
+          : "w-[var(--sidebar-width)]",
       )}
     >
       {/* Logo */}
       <div className="flex items-center justify-between p-4 border-b border-[var(--border-primary)]">
-        <Link href="/dashboard" className="flex items-center gap-2.5 overflow-hidden">
+        <Link
+          href="/dashboard"
+          className="flex items-center gap-2.5 overflow-hidden"
+        >
           <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center shrink-0">
             <Zap className="w-4 h-4 text-white" />
           </div>
@@ -103,7 +108,7 @@ export function Sidebar() {
           const isActive =
             pathname === item.href ||
             (item.href !== "/dashboard" && pathname.startsWith(item.href));
-          
+
           return (
             <Link
               key={item.href}
@@ -112,7 +117,7 @@ export function Sidebar() {
                 "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 group relative",
                 isActive
                   ? "bg-indigo-500/10 text-indigo-400"
-                  : "text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-hover)]"
+                  : "text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-hover)]",
               )}
             >
               {isActive && (
@@ -122,7 +127,7 @@ export function Sidebar() {
                 className={cn(
                   "w-[18px] h-[18px] shrink-0 transition-transform",
                   isActive && "text-indigo-400",
-                  "group-hover:scale-105"
+                  "group-hover:scale-105",
                 )}
               />
               {!collapsed && (
@@ -147,7 +152,7 @@ export function Sidebar() {
             "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all",
             pathname === "/dashboard/settings"
               ? "bg-indigo-500/10 text-indigo-400"
-              : "text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-hover)]"
+              : "text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-hover)]",
           )}
         >
           <Settings className="w-[18px] h-[18px] shrink-0" />
@@ -168,7 +173,7 @@ export function Sidebar() {
           <div
             className={cn(
               "mt-2 pt-2 border-t border-[var(--border-primary)]",
-              collapsed ? "flex justify-center" : ""
+              collapsed ? "flex justify-center" : "",
             )}
           >
             <Link
@@ -177,7 +182,7 @@ export function Sidebar() {
                 "flex items-center gap-3 rounded-lg transition-all group",
                 collapsed
                   ? "p-1.5 hover:bg-[var(--bg-hover)] rounded-lg"
-                  : "px-3 py-2.5 hover:bg-[var(--bg-hover)] w-full"
+                  : "px-3 py-2.5 hover:bg-[var(--bg-hover)] w-full",
               )}
             >
               {user.imageUrl ? (

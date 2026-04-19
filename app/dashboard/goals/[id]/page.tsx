@@ -53,7 +53,9 @@ async function GoalDetailContent({ goalId }: { goalId: string }) {
   const pendingTasks = tasks.filter((t) => !t.completed);
   const daysLeft = goal.deadline ? getDaysUntil(goal.deadline) : null;
   const taskCompletionRate =
-    tasks.length > 0 ? Math.round((completedTasks.length / tasks.length) * 100) : 0;
+    tasks.length > 0
+      ? Math.round((completedTasks.length / tasks.length) * 100)
+      : 0;
 
   return (
     <>
@@ -87,7 +89,7 @@ async function GoalDetailContent({ goalId }: { goalId: string }) {
               <span
                 className={cn(
                   "text-[10px] font-semibold px-2 py-0.5 rounded capitalize shrink-0",
-                  getStatusColor(goal.status)
+                  getStatusColor(goal.status),
                 )}
               >
                 {goal.status}
@@ -105,8 +107,8 @@ async function GoalDetailContent({ goalId }: { goalId: string }) {
                   {daysLeft > 0
                     ? `${daysLeft} days left`
                     : daysLeft === 0
-                    ? "Due today"
-                    : `${Math.abs(daysLeft)} days overdue`}
+                      ? "Due today"
+                      : `${Math.abs(daysLeft)} days overdue`}
                 </span>
               )}
               {goal.deadline && (
@@ -130,8 +132,12 @@ async function GoalDetailContent({ goalId }: { goalId: string }) {
         {/* Progress */}
         <div className="mt-5">
           <div className="flex items-center justify-between text-xs mb-2">
-            <span className="text-[var(--text-secondary)] font-medium">Progress</span>
-            <span className="text-[var(--text-primary)] font-semibold">{goal.progress}%</span>
+            <span className="text-[var(--text-secondary)] font-medium">
+              Progress
+            </span>
+            <span className="text-[var(--text-primary)] font-semibold">
+              {goal.progress}%
+            </span>
           </div>
           <ProgressBar value={goal.progress} color="indigo" />
         </div>
@@ -143,21 +149,27 @@ async function GoalDetailContent({ goalId }: { goalId: string }) {
               <CheckCircle className="w-4 h-4" />
               {completedTasks.length}
             </div>
-            <div className="text-[10px] text-[var(--text-tertiary)]">Completed</div>
+            <div className="text-[10px] text-[var(--text-tertiary)]">
+              Completed
+            </div>
           </div>
           <div className="bg-[var(--bg-tertiary)] rounded-lg p-3 text-center">
             <div className="text-lg font-bold text-amber-400 flex items-center justify-center gap-1">
               <ListTodo className="w-4 h-4" />
               {pendingTasks.length}
             </div>
-            <div className="text-[10px] text-[var(--text-tertiary)]">Pending</div>
+            <div className="text-[10px] text-[var(--text-tertiary)]">
+              Pending
+            </div>
           </div>
           <div className="bg-[var(--bg-tertiary)] rounded-lg p-3 text-center">
             <div className="text-lg font-bold text-indigo-400 flex items-center justify-center gap-1">
               <TrendingUp className="w-4 h-4" />
               {taskCompletionRate}%
             </div>
-            <div className="text-[10px] text-[var(--text-tertiary)]">Task Rate</div>
+            <div className="text-[10px] text-[var(--text-tertiary)]">
+              Task Rate
+            </div>
           </div>
         </div>
       </div>

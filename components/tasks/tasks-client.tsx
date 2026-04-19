@@ -36,7 +36,7 @@ export default function TasksClient({ tasks, goals }: TasksClientProps) {
     filtered = filtered.filter(
       (t) =>
         t.title.toLowerCase().includes(search.toLowerCase()) ||
-        t.description?.toLowerCase().includes(search.toLowerCase())
+        t.description?.toLowerCase().includes(search.toLowerCase()),
     );
   }
 
@@ -86,7 +86,7 @@ export default function TasksClient({ tasks, goals }: TasksClientProps) {
               onClick={() => setFilter(f)}
               className={cn(
                 "btn text-xs px-3 py-1.5 capitalize",
-                filter === f ? "btn-primary" : "btn-ghost"
+                filter === f ? "btn-primary" : "btn-ghost",
               )}
             >
               {f}
@@ -96,7 +96,9 @@ export default function TasksClient({ tasks, goals }: TasksClientProps) {
 
         <select
           value={priorityFilter}
-          onChange={(e) => setPriorityFilter(e.target.value as typeof priorityFilter)}
+          onChange={(e) =>
+            setPriorityFilter(e.target.value as typeof priorityFilter)
+          }
           className="input-field w-auto text-xs"
         >
           <option value="all">All Priorities</option>
@@ -126,7 +128,10 @@ export default function TasksClient({ tasks, goals }: TasksClientProps) {
             title="No tasks found"
             description="Create your first task to start tracking your progress."
             action={
-              <button onClick={() => setShowModal(true)} className="btn btn-primary">
+              <button
+                onClick={() => setShowModal(true)}
+                className="btn btn-primary"
+              >
                 <Plus className="w-4 h-4" />
                 Create Task
               </button>
@@ -141,10 +146,7 @@ export default function TasksClient({ tasks, goals }: TasksClientProps) {
         onClose={() => setShowModal(false)}
         title="Create New Task"
       >
-        <CreateTaskForm
-          goals={goals}
-          onClose={() => setShowModal(false)}
-        />
+        <CreateTaskForm goals={goals} onClose={() => setShowModal(false)} />
       </Modal>
     </PageContainer>
   );

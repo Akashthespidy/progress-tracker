@@ -2,7 +2,16 @@
 
 import { useState, useTransition } from "react";
 import { getAIMentorResponse } from "@/lib/actions/ai";
-import { Brain, Sparkles, Loader2, RefreshCw, MessageSquare, Lightbulb, Flame, Target } from "lucide-react";
+import {
+  Brain,
+  Sparkles,
+  Loader2,
+  RefreshCw,
+  MessageSquare,
+  Lightbulb,
+  Flame,
+  Target,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface AIMentorPanelProps {
@@ -11,10 +20,34 @@ interface AIMentorPanelProps {
 }
 
 const mentorTypes = [
-  { type: "daily_feedback" as const, label: "Daily Feedback", icon: MessageSquare, color: "text-blue-400", bg: "bg-blue-500/10" },
-  { type: "suggestion" as const, label: "Suggestions", icon: Lightbulb, color: "text-amber-400", bg: "bg-amber-500/10" },
-  { type: "motivation" as const, label: "Motivation", icon: Flame, color: "text-rose-400", bg: "bg-rose-500/10" },
-  { type: "goal_review" as const, label: "Goal Review", icon: Target, color: "text-emerald-400", bg: "bg-emerald-500/10" },
+  {
+    type: "daily_feedback" as const,
+    label: "Daily Feedback",
+    icon: MessageSquare,
+    color: "text-blue-400",
+    bg: "bg-blue-500/10",
+  },
+  {
+    type: "suggestion" as const,
+    label: "Suggestions",
+    icon: Lightbulb,
+    color: "text-amber-400",
+    bg: "bg-amber-500/10",
+  },
+  {
+    type: "motivation" as const,
+    label: "Motivation",
+    icon: Flame,
+    color: "text-rose-400",
+    bg: "bg-rose-500/10",
+  },
+  {
+    type: "goal_review" as const,
+    label: "Goal Review",
+    icon: Target,
+    color: "text-emerald-400",
+    bg: "bg-emerald-500/10",
+  },
 ];
 
 /**
@@ -26,9 +59,9 @@ const mentorTypes = [
  */
 function FormattedResponse({ text }: { text: string }) {
   const lines = text.split("\n");
-  
+
   // Find first non-empty line for headline
-  const firstNonEmptyIndex = lines.findIndex(line => line.trim());
+  const firstNonEmptyIndex = lines.findIndex((line) => line.trim());
 
   return (
     <div className="space-y-2.5">
@@ -41,7 +74,10 @@ function FormattedResponse({ text }: { text: string }) {
         // Headline — first non-empty line
         if (i === firstNonEmptyIndex) {
           return (
-            <div key={i} className="text-sm font-semibold text-[var(--text-primary)] pb-1 border-b border-[var(--border-primary)]">
+            <div
+              key={i}
+              className="text-sm font-semibold text-[var(--text-primary)] pb-1 border-b border-[var(--border-primary)]"
+            >
               {trimmed}
             </div>
           );
@@ -63,7 +99,10 @@ function FormattedResponse({ text }: { text: string }) {
         // Bullet point (•)
         if (trimmed.startsWith("•")) {
           return (
-            <div key={i} className="flex items-start gap-2 text-sm text-[var(--text-secondary)] pl-1">
+            <div
+              key={i}
+              className="flex items-start gap-2 text-sm text-[var(--text-secondary)] pl-1"
+            >
               <span className="text-indigo-400 shrink-0 mt-0.5">•</span>
               <span>{trimmed.slice(1).trim()}</span>
             </div>
@@ -72,7 +111,10 @@ function FormattedResponse({ text }: { text: string }) {
 
         // Regular paragraph
         return (
-          <p key={i} className="text-sm text-[var(--text-secondary)] leading-relaxed">
+          <p
+            key={i}
+            className="text-sm text-[var(--text-secondary)] leading-relaxed"
+          >
             {trimmed}
           </p>
         );
@@ -81,12 +123,18 @@ function FormattedResponse({ text }: { text: string }) {
   );
 }
 
-export function AIMentorPanel({ initialResponse, compact = false }: AIMentorPanelProps) {
-  const [response, setResponse] = useState<string | null>(initialResponse ?? null);
-  const [activeType, setActiveType] = useState<typeof mentorTypes[number]["type"]>("daily_feedback");
+export function AIMentorPanel({
+  initialResponse,
+  compact = false,
+}: AIMentorPanelProps) {
+  const [response, setResponse] = useState<string | null>(
+    initialResponse ?? null,
+  );
+  const [activeType, setActiveType] =
+    useState<(typeof mentorTypes)[number]["type"]>("daily_feedback");
   const [isPending, startTransition] = useTransition();
 
-  const handleGenerate = (type: typeof mentorTypes[number]["type"]) => {
+  const handleGenerate = (type: (typeof mentorTypes)[number]["type"]) => {
     setActiveType(type);
     startTransition(async () => {
       const result = await getAIMentorResponse(type);
@@ -105,7 +153,9 @@ export function AIMentorPanel({ initialResponse, compact = false }: AIMentorPane
             </div>
             <div>
               <h3 className="text-sm font-semibold">AI Mentor — Zero</h3>
-              <p className="text-[10px] text-[var(--text-tertiary)]">Your personal coach</p>
+              <p className="text-[10px] text-[var(--text-tertiary)]">
+                Your personal coach
+              </p>
             </div>
             <button
               onClick={() => handleGenerate(activeType)}
@@ -123,7 +173,11 @@ export function AIMentorPanel({ initialResponse, compact = false }: AIMentorPane
 
           {response ? (
             <div className="max-h-[280px] overflow-y-auto">
-              <FormattedResponse text={response.slice(0, 400) + (response.length > 400 ? "..." : "")} />
+              <FormattedResponse
+                text={
+                  response.slice(0, 400) + (response.length > 400 ? "..." : "")
+                }
+              />
             </div>
           ) : (
             <button
@@ -160,10 +214,15 @@ export function AIMentorPanel({ initialResponse, compact = false }: AIMentorPane
             disabled={isPending}
             className={cn(
               "card card-interactive p-3 flex flex-col items-center gap-2 text-xs font-medium transition-all",
-              activeType === mt.type && "border-indigo-500/30 bg-indigo-500/5"
+              activeType === mt.type && "border-indigo-500/30 bg-indigo-500/5",
             )}
           >
-            <div className={cn("w-9 h-9 rounded-lg flex items-center justify-center", mt.bg)}>
+            <div
+              className={cn(
+                "w-9 h-9 rounded-lg flex items-center justify-center",
+                mt.bg,
+              )}
+            >
               <mt.icon className={cn("w-4.5 h-4.5", mt.color)} />
             </div>
             {mt.label}

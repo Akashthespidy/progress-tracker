@@ -15,12 +15,37 @@ import {
 } from "lucide-react";
 
 const commands = [
-  { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard, group: "Navigate" },
-  { label: "Tasks", href: "/dashboard/tasks", icon: CheckSquare, group: "Navigate" },
+  {
+    label: "Dashboard",
+    href: "/dashboard",
+    icon: LayoutDashboard,
+    group: "Navigate",
+  },
+  {
+    label: "Tasks",
+    href: "/dashboard/tasks",
+    icon: CheckSquare,
+    group: "Navigate",
+  },
   { label: "Goals", href: "/dashboard/goals", icon: Target, group: "Navigate" },
-  { label: "Analytics", href: "/dashboard/analytics", icon: BarChart3, group: "Navigate" },
-  { label: "AI Mentor", href: "/dashboard/mentor", icon: Brain, group: "Navigate" },
-  { label: "Settings", href: "/dashboard/settings", icon: Settings, group: "Navigate" },
+  {
+    label: "Analytics",
+    href: "/dashboard/analytics",
+    icon: BarChart3,
+    group: "Navigate",
+  },
+  {
+    label: "AI Mentor",
+    href: "/dashboard/mentor",
+    icon: Brain,
+    group: "Navigate",
+  },
+  {
+    label: "Settings",
+    href: "/dashboard/settings",
+    icon: Settings,
+    group: "Navigate",
+  },
 ];
 
 export function CommandPalette() {
@@ -30,7 +55,7 @@ export function CommandPalette() {
   const router = useRouter();
 
   const filtered = commands.filter((c) =>
-    c.label.toLowerCase().includes(query.toLowerCase())
+    c.label.toLowerCase().includes(query.toLowerCase()),
   );
 
   const handleKeyDown = useCallback(
@@ -60,7 +85,7 @@ export function CommandPalette() {
         setOpen(false);
       }
     },
-    [open, filtered, selectedIndex, router]
+    [open, filtered, selectedIndex, router],
   );
 
   useEffect(() => {
@@ -79,7 +104,10 @@ export function CommandPalette() {
 
   return (
     <div className="fixed inset-0 z-50 flex items-start justify-center pt-[20vh]">
-      <div className="fixed inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setOpen(false)} />
+      <div
+        className="fixed inset-0 bg-black/60 backdrop-blur-sm"
+        onClick={() => setOpen(false)}
+      />
       <div className="relative w-full max-w-lg bg-[var(--bg-secondary)] border border-[var(--border-secondary)] rounded-2xl shadow-2xl overflow-hidden animate-scale-in">
         {/* Search Input */}
         <div className="flex items-center gap-3 px-4 py-3.5 border-b border-[var(--border-primary)]">
@@ -111,12 +139,14 @@ export function CommandPalette() {
                   "w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-colors",
                   selectedIndex === index
                     ? "bg-indigo-500/10 text-indigo-400"
-                    : "text-[var(--text-secondary)] hover:bg-[var(--bg-hover)] hover:text-[var(--text-primary)]"
+                    : "text-[var(--text-secondary)] hover:bg-[var(--bg-hover)] hover:text-[var(--text-primary)]",
                 )}
               >
                 <cmd.icon className="w-4 h-4 shrink-0" />
                 <span>{cmd.label}</span>
-                <span className="ml-auto text-[10px] text-[var(--text-tertiary)]">{cmd.group}</span>
+                <span className="ml-auto text-[10px] text-[var(--text-tertiary)]">
+                  {cmd.group}
+                </span>
               </button>
             ))
           ) : (
@@ -128,15 +158,21 @@ export function CommandPalette() {
 
         <div className="border-t border-[var(--border-primary)] px-4 py-2 flex items-center gap-4 text-[10px] text-[var(--text-tertiary)]">
           <span className="flex items-center gap-1">
-            <kbd className="border border-[var(--border-primary)] rounded px-1 py-0.5">↑↓</kbd>
+            <kbd className="border border-[var(--border-primary)] rounded px-1 py-0.5">
+              ↑↓
+            </kbd>
             Navigate
           </span>
           <span className="flex items-center gap-1">
-            <kbd className="border border-[var(--border-primary)] rounded px-1 py-0.5">↵</kbd>
+            <kbd className="border border-[var(--border-primary)] rounded px-1 py-0.5">
+              ↵
+            </kbd>
             Select
           </span>
           <span className="flex items-center gap-1">
-            <kbd className="border border-[var(--border-primary)] rounded px-1 py-0.5">esc</kbd>
+            <kbd className="border border-[var(--border-primary)] rounded px-1 py-0.5">
+              esc
+            </kbd>
             Close
           </span>
         </div>

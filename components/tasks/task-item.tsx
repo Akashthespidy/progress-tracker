@@ -44,7 +44,7 @@ export function TaskItem({ task, goalTitle }: TaskItemProps) {
         task.completed
           ? "bg-[var(--bg-tertiary)]/50 border-[var(--border-primary)] opacity-60"
           : "bg-[var(--bg-card)] border-[var(--border-primary)] hover:border-[var(--border-secondary)]",
-        isPending && "opacity-50 pointer-events-none"
+        isPending && "opacity-50 pointer-events-none",
       )}
     >
       {/* Checkbox */}
@@ -68,7 +68,7 @@ export function TaskItem({ task, goalTitle }: TaskItemProps) {
         <div
           className={cn(
             "text-sm font-medium truncate",
-            task.completed && "line-through text-[var(--text-tertiary)]"
+            task.completed && "line-through text-[var(--text-tertiary)]",
           )}
         >
           {task.title}
@@ -83,7 +83,7 @@ export function TaskItem({ task, goalTitle }: TaskItemProps) {
           <span
             className={cn(
               "inline-flex items-center gap-1 text-[10px] font-medium px-1.5 py-0.5 rounded border",
-              getPriorityColor(task.priority)
+              getPriorityColor(task.priority),
             )}
           >
             <Flag className="w-2.5 h-2.5" />

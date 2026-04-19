@@ -10,9 +10,10 @@ import {
   Brain,
   ArrowRight,
   AlertCircle,
+  X,
 } from "lucide-react";
 import type { Goal } from "@/lib/db/schema";
-import { useState, useTransition } from "react";
+import { useState, useTransition, useRef, useEffect } from "react";
 import { deleteGoal } from "@/lib/actions/goals";
 import Link from "next/link";
 
@@ -25,8 +26,23 @@ export function GoalCard({ goal, taskCount = 0 }: GoalCardProps) {
   const [showMenu, setShowMenu] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [isPending, startTransition] = useTransition();
+  const [menuPos, setMenuPos] = useState<{ top: number; right: number }>({
+    top: 0,
+    right: 0,
+  });
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
 
   const daysLeft = goal.deadline ? getDaysUntil(goal.deadline) : null;
+
+  useEffect(() => {
+    if (showMenu && menuButtonRef.current) {
+      const rect = menuButtonRef.current.getBoundingClientRect();
+      setMenuPos({
+        top: rect.bottom + 8,
+        right: window.innerWidth - rect.right,
+      });
+    }
+  }, [showMenu]);
 
   const handleDelete = () => {
     startTransition(async () => {
@@ -115,8 +131,10 @@ export function GoalCard({ goal, taskCount = 0 }: GoalCardProps) {
           {/* Menu Button - Always Visible */}
           <div className="relative">
             <button
+              ref={menuButtonRef}
               onClick={(e) => {
                 e.preventDefault();
+                e.stopPropagation();
                 setShowMenu(!showMenu);
               }}
               className={cn(
@@ -129,30 +147,59 @@ export function GoalCard({ goal, taskCount = 0 }: GoalCardProps) {
             >
               <MoreHorizontal className="w-4 h-4" />
             </button>
+
+            {/* Menu Dropdown - Fixed positioning to avoid clipping */}
             {showMenu && (
               <>
+                {/* Overlay backdrop */}
                 <div
-                  className="fixed inset-0 z-10"
+                  className="fixed inset-0 z-30"
                   onClick={() => setShowMenu(false)}
                 />
-                <div className="absolute right-0 top-8 z-20 w-48 py-1.5 bg-[var(--bg-elevated)] border border-[var(--border-secondary)] rounded-xl shadow-xl animate-scale-in">
-                  <Link
-                    href={`/dashboard/goals/${goal.id}`}
-                    className="w-full px-3 py-2.5 text-left text-xs hover:bg-[var(--bg-hover)] text-indigo-400 flex items-center gap-2 transition-colors"
-                  >
-                    <ArrowRight className="w-3.5 h-3.5" />
-                    <span>View Details</span>
-                  </Link>
-                  <button
-                    onClick={() => {
-                      setShowDeleteConfirm(true);
-                      setShowMenu(false);
-                    }}
-                    className="w-full px-3 py-2.5 text-left text-xs hover:bg-[var(--bg-hover)] text-rose-400 flex items-center gap-2 transition-colors"
-                  >
-                    <Trash2 className="w-3.5 h-3.5" />
-                    <span>Delete</span>
-                  </button>
+
+                {/* Menu popup */}
+                <div
+                  className="fixed z-40 w-56 bg-[var(--bg-elevated)] border border-[var(--border-secondary)] rounded-xl shadow-2xl animate-scale-in"
+                  style={{
+                    top: `${menuPos.top}px`,
+                    right: `${menuPos.right}px`,
+                  }}
+                >
+                  {/* Header with close button */}
+                  <div className="flex items-center justify-between px-4 py-3 border-b border-[var(--border-primary)]">
+                    <h3 className="text-xs font-semibold text-[var(--text-primary)]">
+                      Goal Options
+                    </h3>
+                    <button
+                      onClick={() => setShowMenu(false)}
+                      className="p-1 hover:bg-[var(--bg-hover)] rounded-lg transition-colors"
+                      title="Close menu"
+                    >
+                      <X className="w-4 h-4 text-[var(--text-tertiary)]" />
+                    </button>
+                  </div>
+
+                  {/* Menu items */}
+                  <div className="py-1.5">
+                    <Link
+                      href={`/dashboard/goals/${goal.id}`}
+                      className="w-full px-4 py-2.5 text-left text-xs hover:bg-[var(--bg-hover)] text-indigo-400 flex items-center gap-3 transition-colors"
+                      onClick={() => setShowMenu(false)}
+                    >
+                      <ArrowRight className="w-4 h-4 flex-shrink-0" />
+                      <span>View Details</span>
+                    </Link>
+                    <button
+                      onClick={() => {
+                        setShowDeleteConfirm(true);
+                        setShowMenu(false);
+                      }}
+                      className="w-full px-4 py-2.5 text-left text-xs hover:bg-[var(--bg-hover)] text-rose-400 flex items-center gap-3 transition-colors"
+                    >
+                      <Trash2 className="w-4 h-4 flex-shrink-0" />
+                      <span>Delete</span>
+                    </button>
+                  </div>
                 </div>
               </>
             )}
@@ -175,8 +222,8 @@ export function GoalCard({ goal, taskCount = 0 }: GoalCardProps) {
               <div className="flex-1">
                 <h3 className="text-sm font-semibold mb-1">Delete Goal?</h3>
                 <p className="text-xs text-[var(--text-secondary)] mb-4">
-                  Are you sure you want to delete &quot;{goal.title}&quot;? This action
-                  cannot be undone.
+                  Are you sure you want to delete &quot;{goal.title}&quot;? This
+                  action cannot be undone.
                 </p>
                 <div className="flex gap-2 justify-end">
                   <button
