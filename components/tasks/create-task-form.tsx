@@ -5,6 +5,14 @@ import { createTask } from "@/lib/actions/tasks";
 import { Plus, Loader2 } from "lucide-react";
 import type { Goal } from "@/lib/db/schema";
 
+function getTodayDateString(): string {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, "0");
+  const day = String(today.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
 interface CreateTaskFormProps {
   goals?: Goal[];
   onClose?: () => void;
@@ -18,7 +26,7 @@ export function CreateTaskForm({ goals, onClose, compact = false, defaultGoalId 
   const [description, setDescription] = useState("");
   const [priority, setPriority] = useState<"low" | "medium" | "high" | "urgent">("medium");
   const [goalId, setGoalId] = useState<string>(defaultGoalId ?? "");
-  const [dueDate, setDueDate] = useState(new Date().toISOString().split("T")[0]);
+  const [dueDate, setDueDate] = useState(getTodayDateString());
   const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = (e: React.FormEvent) => {
