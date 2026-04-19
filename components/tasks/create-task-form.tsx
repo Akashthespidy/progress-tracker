@@ -20,11 +20,18 @@ interface CreateTaskFormProps {
   defaultGoalId?: string;
 }
 
-export function CreateTaskForm({ goals, onClose, compact = false, defaultGoalId }: CreateTaskFormProps) {
+export function CreateTaskForm({
+  goals,
+  onClose,
+  compact = false,
+  defaultGoalId,
+}: CreateTaskFormProps) {
   const [isPending, startTransition] = useTransition();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [priority, setPriority] = useState<"low" | "medium" | "high" | "urgent">("medium");
+  const [priority, setPriority] = useState<
+    "low" | "medium" | "high" | "urgent"
+  >("medium");
   const [goalId, setGoalId] = useState<string>(defaultGoalId ?? "");
   const [dueDate, setDueDate] = useState(getTodayDateString());
   const [error, setError] = useState<string | null>(null);
@@ -73,7 +80,11 @@ export function CreateTaskForm({ goals, onClose, compact = false, defaultGoalId 
           disabled={isPending || !title.trim()}
           className="btn btn-primary px-3 py-2.5"
         >
-          {isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Plus className="w-4 h-4" />}
+          {isPending ? (
+            <Loader2 className="w-4 h-4 animate-spin" />
+          ) : (
+            <Plus className="w-4 h-4" />
+          )}
         </button>
       </form>
     );

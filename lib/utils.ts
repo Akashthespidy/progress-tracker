@@ -1,8 +1,8 @@
-import { clsx, type ClassValue } from "clsx"
-import { twMerge } from "tailwind-merge"
+import { clsx, type ClassValue } from "clsx";
+import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
+  return twMerge(clsx(inputs));
 }
 
 export function formatDate(date: Date | string): string {
@@ -33,7 +33,10 @@ export function getGreeting(): string {
   return "Good evening";
 }
 
-export function calculateCompletionRate(completed: number, total: number): number {
+export function calculateCompletionRate(
+  completed: number,
+  total: number,
+): number {
   if (total === 0) return 0;
   return Math.round((completed / total) * 100);
 }
@@ -48,21 +51,31 @@ export function getStreakEmoji(streak: number): string {
 
 export function getPriorityColor(priority: string): string {
   switch (priority) {
-    case "urgent": return "text-red-400 bg-red-400/10 border-red-400/20";
-    case "high": return "text-orange-400 bg-orange-400/10 border-orange-400/20";
-    case "medium": return "text-blue-400 bg-blue-400/10 border-blue-400/20";
-    case "low": return "text-slate-400 bg-slate-400/10 border-slate-400/20";
-    default: return "text-slate-400 bg-slate-400/10 border-slate-400/20";
+    case "urgent":
+      return "text-red-400 bg-red-400/10 border-red-400/20";
+    case "high":
+      return "text-orange-400 bg-orange-400/10 border-orange-400/20";
+    case "medium":
+      return "text-blue-400 bg-blue-400/10 border-blue-400/20";
+    case "low":
+      return "text-slate-400 bg-slate-400/10 border-slate-400/20";
+    default:
+      return "text-slate-400 bg-slate-400/10 border-slate-400/20";
   }
 }
 
 export function getStatusColor(status: string): string {
   switch (status) {
-    case "active": return "text-emerald-400 bg-emerald-400/10";
-    case "completed": return "text-blue-400 bg-blue-400/10";
-    case "paused": return "text-amber-400 bg-amber-400/10";
-    case "abandoned": return "text-red-400 bg-red-400/10";
-    default: return "text-slate-400 bg-slate-400/10";
+    case "active":
+      return "text-emerald-400 bg-emerald-400/10";
+    case "completed":
+      return "text-blue-400 bg-blue-400/10";
+    case "paused":
+      return "text-amber-400 bg-amber-400/10";
+    case "abandoned":
+      return "text-red-400 bg-red-400/10";
+    default:
+      return "text-slate-400 bg-slate-400/10";
   }
 }
 

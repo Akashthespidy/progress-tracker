@@ -199,9 +199,9 @@ async function DashboardContent() {
 
             <div className="space-y-3">
               {todayTasks.length > 0 ? (
-                todayTasks.slice(0, 6).map((task) => (
-                  <TaskItem key={task.id} task={task} />
-                ))
+                todayTasks
+                  .slice(0, 6)
+                  .map((task) => <TaskItem key={task.id} task={task} />)
               ) : (
                 <div className="text-center py-8">
                   <div className="text-3xl mb-2">✨</div>
