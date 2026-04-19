@@ -4,8 +4,8 @@ import { StatCard } from "@/components/ui/stat-card";
 import { ProgressChart } from "@/components/charts/progress-chart";
 import { AIMentorPanel } from "@/components/ai/ai-mentor-panel";
 import { TaskItem } from "@/components/tasks/task-item";
-import { CreateTaskForm } from "@/components/tasks/create-task-form";
 import { GoalCard } from "@/components/goals/goal-card";
+import { Button } from "@/components/ui/button";
 import { getOrCreateUser } from "@/lib/services/user";
 import { getTodayTasks } from "@/lib/actions/tasks";
 import { getGoals } from "@/lib/actions/goals";
@@ -184,7 +184,7 @@ async function DashboardContent() {
 
             {/* Today's progress bar */}
             {todayTotal > 0 && (
-              <div className="mb-4">
+              <div className="mb-6">
                 <div className="flex items-center justify-between text-xs text-[var(--text-tertiary)] mb-1.5">
                   <span>{todayCompleted} of {todayTotal} completed</span>
                   <span className="font-medium text-[var(--text-secondary)]">{todayRate}%</span>
@@ -198,30 +198,57 @@ async function DashboardContent() {
               </div>
             )}
 
-            <div className="mb-4">
-              <CreateTaskForm compact />
-            </div>
+            {/* Create Task CTA */}
+            {todayTotal === 0 && (
+              <div className="mb-6">
+                <Link href="/dashboard/tasks" className="w-full block">
+                  <Button
+                    className="w-full bg-gradient-to-r from-indigo-500 to-violet-500 hover:from-indigo-600 hover:to-violet-600 text-white font-semibold py-3 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+                  >
+                    <Plus className="w-5 h-5 mr-2" />
+                    Create Your First Task
+                  </Button>
+                </Link>
+              </div>
+            )}
 
             <div className="space-y-2">
               {todayTasks.length > 0 ? (
-                todayTasks.slice(0, 6).map((task) => (
-                  <TaskItem key={task.id} task={task} />
-                ))
+                <>
+                  {todayTasks.slice(0, 6).map((task) => (
+                    <TaskItem key={task.id} task={task} />
+                  ))}
+                  {todayTasks.length > 6 && (
+                    <Link
+                      href="/dashboard/tasks"
+                      className="block text-center text-xs text-indigo-400 hover:text-indigo-300 py-2 transition-colors"
+                    >
+                      +{todayTasks.length - 6} more tasks →
+                    </Link>
+                  )}
+                  <Link href="/dashboard/tasks" className="block mt-3">
+                    <Button
+                      variant="outline"
+                      className="w-full border-indigo-500/50 hover:border-indigo-400 hover:bg-indigo-500/10 text-indigo-400"
+                    >
+                      <Plus className="w-4 h-4 mr-2" />
+                      Add More Tasks
+                    </Button>
+                  </Link>
+                </>
               ) : (
-                <div className="text-center py-10">
-                  <div className="text-3xl mb-2">✨</div>
-                  <p className="text-sm text-[var(--text-tertiary)]">
-                    No tasks for today. Add one above!
+                <div className="text-center py-12">
+                  <div className="text-4xl mb-3">✨</div>
+                  <p className="text-sm text-[var(--text-tertiary)] mb-4">
+                    No tasks for today. Let&apos;s get started!
                   </p>
+                  <Link href="/dashboard/tasks" className="inline-block">
+                    <Button className="bg-gradient-to-r from-indigo-500 to-violet-500 hover:from-indigo-600 hover:to-violet-600 text-white font-semibold">
+                      <Plus className="w-4 h-4 mr-2" />
+                      Create Task
+                    </Button>
+                  </Link>
                 </div>
-              )}
-              {todayTasks.length > 6 && (
-                <Link
-                  href="/dashboard/tasks"
-                  className="block text-center text-xs text-indigo-400 hover:text-indigo-300 py-2 transition-colors"
-                >
-                  +{todayTasks.length - 6} more tasks →
-                </Link>
               )}
             </div>
           </div>
