@@ -14,6 +14,8 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { Metadata } from "next";
+import { redirect } from "next/navigation";
+import { auth } from "@clerk/nextjs/server";
 
 export const metadata: Metadata = {
   title: "ZeroHero — AI-Powered Progress Tracker | Go from Zero to Hero",
@@ -21,7 +23,13 @@ export const metadata: Metadata = {
     "Track daily tasks, crush long-term goals, and receive AI mentorship that adapts to your real progress data. Your personal operating system for growth.",
 };
 
-export default function LandingPage() {
+export default async function LandingPage() {
+  const { userId } = await auth();
+  
+  // If user is already logged in, redirect to dashboard
+  if (userId) {
+    redirect("/dashboard");
+  }
   return (
     <div className="min-h-screen bg-[var(--bg-primary)] relative overflow-hidden">
       {/* Background gradients */}
